@@ -9,7 +9,7 @@ namespace WebAddressbookTests
     internal class GroupData
     {
         private string name;
-        private string header = " ";
+        private string header = "";
         private string footer = "";
 
         public GroupData(string name)
