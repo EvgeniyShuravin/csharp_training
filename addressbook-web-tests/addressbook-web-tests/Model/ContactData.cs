@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    internal class ContactData
+    public class ContactData
     {
         private string firstname;
         private string lastname;
@@ -42,8 +42,8 @@ namespace WebAddressbookTests
         public string Email { get { return email; } set { email = value; } }
         public string Email2 { get { return email2; } set { email2 = value; } }
         public string Email3 { get { return email3; } set { email3 = value; } }
-        public string Mobile { get { return mobile; } set { mobile = value; } } 
-        public string Work { get { return work; } set { work= value; } }
+        public string Mobile { get { return mobile; } set { mobile = value; } }
+        public string Work { get { return work; } set { work = value; } }
         public string Fax { get { return fax; } set { fax = value; } }
     }
 }
