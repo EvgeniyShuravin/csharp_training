@@ -18,6 +18,7 @@ namespace WebAddressbookTests
             contact.Home = "dsa";
             contact.Email = "tetst@gmail.com";
             contact.Address = "SPB";
+
             applicationManager.Contact.Create(contact);
         }
     }

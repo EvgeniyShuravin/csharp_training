@@ -68,6 +68,8 @@
     <Compile Include="AppManager\ContactHelper.cs" />
     <Compile Include="Model\GroupData.cs" />
     <Compile Include="AppManager\GroupHelper.cs" />
+    <Compile Include="Test\ContactModificationTests.cs" />
+    <Compile Include="Test\ContactRemovalTests.cs" />
     <Compile Include="Test\GroupModificationTests.cs" />
     <Compile Include="Test\GroupRemovalTests.cs" />
     <Compile Include="AppManager\HelperBase.cs" />
