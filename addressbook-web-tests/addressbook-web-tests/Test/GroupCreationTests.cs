@@ -12,16 +12,21 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            applicationManager.Navigatot.GoToHomePage();
-            applicationManager.Auth.Login(new AccountData("admin", "secret"));
-            applicationManager.Navigatot.GoToGroupsPage();
-            applicationManager.Groups.InitGroupCreation();
             GroupData group = new GroupData("dsa");
             group.Header = "dsad";
-            // group.Footer = "cxz";
-            applicationManager.Groups.FillGroupForm(group);
-            applicationManager.Groups.SubmitGroupCreation();
-            applicationManager.Groups.ReturnToGroupsPage();
+            group.Footer = "cxz";
+
+            applicationManager.Groups.Create(group);
+        }
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            GroupData group = new GroupData("");
+            group.Header = "";
+            group.Footer = "";
+
+            applicationManager.Groups.Create(group);
+
         }
     }
 }

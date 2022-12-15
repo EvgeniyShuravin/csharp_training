@@ -23,12 +23,12 @@ namespace WebAddressbookTests
             driver = new FirefoxDriver();
             baseURL = "http://localhost";
 
-            loginHelper = new LoginHelper(driver);
-            navigationHelper = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
+            loginHelper = new LoginHelper(this);
+            navigationHelper = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
         }
-
+        public IWebDriver Driver { get { return driver; } }
         public void Stop()
         {
             try
@@ -45,7 +45,7 @@ namespace WebAddressbookTests
         { get { return loginHelper; } }
         public NavigationHelper Navigatot
         { get { return navigationHelper; } }
-        public GroupHelper Groups 
+        public GroupHelper Groups
         { get { return groupHelper; } }
         public ContactHelper Contact
         { get { return contactHelper; } }
