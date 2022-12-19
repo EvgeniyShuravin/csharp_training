@@ -20,17 +20,17 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper Remove(int id)
+        public ContactHelper Remove(int index)
         {
-            SelectContact(id);
+            SelectContact(index);
             InitContactRemove();
             driver.SwitchTo().Alert().Accept();
             return this;
         }
 
-        public ContactHelper Modify(ContactData contactData, int id)
+        public ContactHelper Modify(ContactData contactData, int index)
         {
-            OpenToModify(id);
+            OpenToModify(index);
             FillContactForm(contactData);
             SubmitContactModify();
             return this;
@@ -90,9 +90,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(int id)
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("//input[@id='"+ id + "']")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+ index + "]/td/input")).Click(); 
             return this;
         }
         public ContactHelper InitContactRemove()
@@ -100,9 +100,9 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
         }
-        public ContactHelper OpenToModify(int id)
+        public ContactHelper OpenToModify(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + id + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
         public ContactHelper SubmitContactModify()

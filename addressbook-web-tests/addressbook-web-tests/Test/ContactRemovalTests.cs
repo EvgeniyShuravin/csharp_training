@@ -11,9 +11,9 @@ namespace WebAddressbookTests
     public class ContactRemovalTests : TestBase
     {
         [Test]
-        public void ContactCreationTest()
+        public void ContactRemovalTest()
         {
-            applicationManager.Contact.Remove(1);
+            applicationManager.Contact.Remove(4);
         }
     }
 }
