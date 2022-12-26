@@ -48,7 +48,6 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroup(int index)
         {
-            GroupIsNotNull();
             driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
             return this;
         }
@@ -77,7 +76,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("group page")).Click();
             return this;
         }
-        public GroupHelper GroupIsNotNull()
+        public GroupHelper CheckingForGroups()
         {
             if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
             {

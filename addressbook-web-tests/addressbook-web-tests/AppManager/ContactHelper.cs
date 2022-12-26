@@ -22,7 +22,6 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int index)
         {
-            ContactIsNotNull();
             SelectContact(index);
             InitContactRemove();
             driver.SwitchTo().Alert().Accept();
@@ -32,7 +31,6 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(ContactData contactData, int index)
         {
-            ContactIsNotNull();
             OpenToModify(index);
             FillContactForm(contactData);
             SubmitContactModify();
@@ -89,7 +87,7 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//div[@id='content']/form/input[22]")).Click();
             return this;
         }
-        public ContactHelper ContactIsNotNull()
+        public ContactHelper CheckingForContacts()
         {
             if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[1]/td/input")))
             {
