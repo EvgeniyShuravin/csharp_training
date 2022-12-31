@@ -48,7 +48,7 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index +1 + "]/input")).Click();
             return this;
         }
 
@@ -94,6 +94,19 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.Name("update")).Click();
             return this;
+        }
+
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups= new List<GroupData>();
+            applicationManager.Navigatot.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements) 
+            {
+             
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
         }
     }
 }

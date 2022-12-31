@@ -21,7 +21,37 @@ namespace WebAddressbookTests
             contact.Email = "tetstNew@gmail.com";
             contact.Address = "VN";
 
-            applicationManager.Contact.Modify(contact,3);
+            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+
+            applicationManager.Contact.Modify(contact,0);
+
+            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            oldContact[0].FirstName= contact.FirstName;
+            oldContact[0].LastName = contact.LastName;
+            oldContact.Sort();
+            newContact.Sort();
+            Assert.AreEqual(oldContact, newContact);
         }
+/*
+        [Test]
+        public void BadNameContactModifyTest()
+        {
+            applicationManager.Contact.CheckingForContacts();
+            ContactData contact = new ContactData("a'a", "New");
+            contact.MiddleName = "NewNew";
+            contact.Home = "132";
+            contact.Email = "tetstNew@gmail.com";
+            contact.Address = "VN";
+            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+            applicationManager.Contact.Modify(contact, 0);
+            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            oldContact[0].FirstName = contact.FirstName;
+            oldContact[0].LastName = contact.LastName;
+            oldContact.Sort();
+            newContact.Sort();
+            Assert.AreEqual(oldContact, newContact);
+        }
+*/
+
     }
 }

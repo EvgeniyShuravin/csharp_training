@@ -69,7 +69,7 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index+2) + "]/td/input")).Click();
             return this;
         }
         public ContactHelper InitContactRemove()
@@ -79,7 +79,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper OpenToModify(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index +2 + "]/td[8]/a/img")).Click();
             return this;
         }
         public ContactHelper SubmitContactModify()
@@ -89,12 +89,23 @@ namespace WebAddressbookTests
         }
         public ContactHelper CheckingForContacts()
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[1]/td/input")))
+            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")))
             {
                 ContactData contact = new ContactData("def", "def");
                 Create(contact);
             }
             return this;
+        }
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contact = new List<ContactData>();
+            applicationManager.Navigatot.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name*='entry']"));
+            foreach (IWebElement element in elements)
+            { 
+                contact.Add(new ContactData(element.Text.Split()[1], element.Text.Split()[0]));
+            }
+            return contact;
         }
     }
 }

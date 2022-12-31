@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,7 +21,34 @@ namespace WebAddressbookTests
             contact.Email = "tetst@gmail.com";
             contact.Address = "SPB";
 
+            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+
             applicationManager.Contact.Create(contact);
+
+            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            oldContact.Add(contact);
+            oldContact.Sort();
+            newContact.Sort();
+            Assert.AreEqual(oldContact, newContact);
+        }
+        [Test]
+        public void BadNameContactCreationTest()
+        {
+            ContactData contact = new ContactData("a'a", "Sh");
+            contact.MiddleName = "Ser";
+            contact.Home = "dsa";
+            contact.Email = "tetst@gmail.com";
+            contact.Address = "SPB";
+
+            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+
+            applicationManager.Contact.Create(contact);
+
+            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            oldContact.Add(contact);
+            oldContact.Sort();
+            newContact.Sort();
+            Assert.AreEqual(oldContact, newContact);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string firstname;
         private string lastname;
@@ -45,5 +45,31 @@ namespace WebAddressbookTests
         public string Mobile { get { return mobile; } set { mobile = value; } }
         public string Work { get { return work; } set { work = value; } }
         public string Fax { get { return fax; } set { fax = value; } }
+        public bool Equals(ContactData other)
+        {
+            if (Object.ReferenceEquals(this, other)) return true;
+            if (Object.ReferenceEquals(other, null)) return false;
+
+            return FirstName == other.FirstName;
+        }
+
+        public override int GetHashCode()
+        {
+            return FirstName.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return FirstName;
+        }
+
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return FirstName.CompareTo(other.FirstName);
+        }
     }
 }
