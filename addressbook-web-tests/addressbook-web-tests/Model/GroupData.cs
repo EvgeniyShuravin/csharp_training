@@ -18,11 +18,11 @@ namespace WebAddressbookTests
 
         public string Id { get; set; }
 
-        
+
         public bool Equals(GroupData other)
         {
-            if(Object.ReferenceEquals(this, other)) return true;
-            if(Object.ReferenceEquals(other, null)) return false;
+            if (Object.ReferenceEquals(this, other)) return true;
+            if (Object.ReferenceEquals(other, null)) return false;
 
             return Name == other.Name;
         }
@@ -31,20 +31,20 @@ namespace WebAddressbookTests
         {
             return Name.GetHashCode();
         }
-        
+
         public override string ToString()
         {
-            return Name;
+            return "name" + Name;
         }
 
-        public int CompareTo (GroupData other)
+        public int CompareTo(GroupData other)
         {
-            if(Object.ReferenceEquals(other, null))
-            { 
-                return 1; 
-            }   
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
             return Name.CompareTo(other.Name);
-            
+
         }
     }
 }

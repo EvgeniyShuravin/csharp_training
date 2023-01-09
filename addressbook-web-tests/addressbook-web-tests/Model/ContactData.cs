@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-
+        private string allPhones;
+        private string fullName;
         public ContactData(string firstname, string lastname)
         {
             FirstName = firstname;
             LastName = lastname;
         }
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string NickName { get; set; }
@@ -31,7 +32,30 @@ namespace WebAddressbookTests
         public string Work { get; set; }
         public string Fax { get; set; }
         public string Id { get; set; }
-
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                    return allPhones;
+                else
+                    return (CleanUp(Home) + CleanUp(Mobile) + CleanUp(Work)).Trim();
+            }
+            set
+            {
+                allPhones= value;
+            }
+        }
+        public string FullName
+        {
+            get
+            {
+                if (fullName != null)
+                    return fullName;
+                else
+                    return FirstName + MiddleName + LastName;
+            }
+        }
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(this, other)) return true;
@@ -57,6 +81,16 @@ namespace WebAddressbookTests
                 return 1;
             }
             return FirstName.CompareTo(other.FirstName);
+        }
+
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone=="")
+            {
+                return "";
+            }
+            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+            //return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
     }
 }

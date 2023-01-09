@@ -53,6 +53,7 @@ namespace WebAddressbookTests
             }
             return applicationManager.Value;
         }
+
         public IWebDriver Driver { get { return driver; } }
 
         public LoginHelper Auth

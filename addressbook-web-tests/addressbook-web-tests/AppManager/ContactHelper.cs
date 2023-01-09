@@ -1,8 +1,10 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTests
@@ -100,6 +102,12 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper OpenDetails(int index)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (2 + index) + "]/td[7]/a/img")).Click();
+            return this;
+        }
+
         private List<ContactData> contactCache = null;
         public List<ContactData> GetContactList()
         {
@@ -110,7 +118,8 @@ namespace WebAddressbookTests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name*='entry']"));
                 foreach (IWebElement element in elements)
                 {
-                    contactCache.Add(new ContactData(element.Text.Split()[1], element.Text.Split()[0]){
+                    contactCache.Add(new ContactData(element.Text.Split()[1], element.Text.Split()[0])
+                    {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     }); ;
                 }
@@ -122,6 +131,79 @@ namespace WebAddressbookTests
             return driver.FindElements(By.CssSelector("tr[name*='entry']")).Count();
         }
 
+        public ContactData GetContactInformationFromTable(int index)
+        {
+            applicationManager.Navigatot.GoToHomePage();
+
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhone = cells[5].Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Address = address,
+                AllPhones = allPhone
+            };
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            applicationManager.Navigatot.GoToHomePage();
+            OpenToModify(index);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                MiddleName = middlename,
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone
+            };
+        }
+        public ContactData GetContactInformationFromDetails(int index)
+        {
+            applicationManager.Navigatot.GoToHomePage();
+            OpenDetails(index);
+
+            IList<IWebElement> cells = driver.FindElements(By.Id("content"));
+
+            string[] str = cells[0].Text.Split('\n');
+
+            string lastName = str[0].Split()[2];
+            string midleName = str[0].Split()[1];   
+            string firstName = str[0].Split()[0];
+            string home = "";
+            string mobile = "";
+            string work = "";
+            foreach (string str2 in str)
+            {
+                if (Regex.IsMatch(str2, "\\bH: \\b"))
+                    home = str2.Split()[1];
+                if (Regex.IsMatch(str2, "\\bW: \\b"))
+                    work = str2.Split()[1];
+                if (Regex.IsMatch(str2, "\\bM: \\b"))
+                    mobile = str2.Split()[1];
+            }
+
+            return new ContactData(firstName, lastName)
+            {
+                MiddleName = midleName, 
+                Home = home,
+                Mobile = mobile,
+                Work = work
+            };
+        }
     }
 }
 
