@@ -30,8 +30,8 @@ namespace WebAddressbookTests
         public void TestContactInformationDetails()
         {
             {
-                ContactData fromDetails = applicationManager.Contact.GetContactInformationFromDetails(1);
-                ContactData fromForm = applicationManager.Contact.GetContactInformationFromEditForm(1);
+                ContactData fromDetails = applicationManager.Contact.GetContactInformationFromDetails(0);
+                ContactData fromForm = applicationManager.Contact.GetContactInformationFromEditForm(0);
 
                 Assert.AreEqual(fromDetails.FullName, fromForm.FullName);
                 Assert.AreEqual(fromDetails.AllPhones, fromForm.AllPhones);

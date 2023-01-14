@@ -83,7 +83,7 @@ namespace WebAddressbookTests
         }
         public ContactHelper OpenToModify(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + 2 + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[8]/a/img")).Click();
             return this;
         }
         public ContactHelper SubmitContactModify()
@@ -188,10 +188,6 @@ namespace WebAddressbookTests
             IList<IWebElement> cells = driver.FindElements(By.Id("content"));
 
             string[] str = cells[0].Text.Split('\n');
-
-            string lastName = str[0].Split()[2];
-            string midleName = str[0].Split()[1];   
-            string firstName = str[0].Split()[0];
             string fullName = str[0];
             string home = "";
             string mobile = "";
@@ -206,9 +202,8 @@ namespace WebAddressbookTests
                     mobile = str2.Split()[1];
             }
 
-            return new ContactData(firstName, lastName)
+            return new ContactData()
             {
-                MiddleName = midleName, 
                 FullName = fullName,
                 Home = home,
                 Mobile = mobile,

@@ -57,7 +57,7 @@ namespace WebAddressbookTests
                 if (fullName != null)
                     return fullName;
                 else
-                    return FirstName + " " + MiddleName + " " + LastName;
+                    return FirstName  + MiddleName + LastName.Remove(LastName.Length-1)+"\r";
             }
             set { fullName = value; }
         }
