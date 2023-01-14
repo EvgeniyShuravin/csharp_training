@@ -140,12 +140,14 @@ namespace WebAddressbookTests
             string lastName = cells[1].Text;
             string firstName = cells[2].Text;
             string address = cells[3].Text;
+            string allEmail = cells[4].Text;
             string allPhone = cells[5].Text;
 
             return new ContactData(firstName, lastName)
             {
                 Address = address,
-                AllPhones = allPhone
+                AllPhones = allPhone,
+                AllEmail = allEmail
             };
         }
 
@@ -162,13 +164,20 @@ namespace WebAddressbookTests
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
 
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
             return new ContactData(firstName, lastName)
             {
                 MiddleName = middlename,
                 Address = address,
                 Home = homePhone,
                 Mobile = mobilePhone,
-                Work = workPhone
+                Work = workPhone,
+                Email = email, 
+                Email2= email2,
+                Email3= email3
             };
         }
         public ContactData GetContactInformationFromDetails(int index)
@@ -183,6 +192,7 @@ namespace WebAddressbookTests
             string lastName = str[0].Split()[2];
             string midleName = str[0].Split()[1];   
             string firstName = str[0].Split()[0];
+            string fullName = str[0];
             string home = "";
             string mobile = "";
             string work = "";
@@ -199,6 +209,7 @@ namespace WebAddressbookTests
             return new ContactData(firstName, lastName)
             {
                 MiddleName = midleName, 
+                FullName = fullName,
                 Home = home,
                 Mobile = mobile,
                 Work = work

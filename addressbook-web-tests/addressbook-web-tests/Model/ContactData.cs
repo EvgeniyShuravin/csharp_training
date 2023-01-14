@@ -12,10 +12,14 @@ namespace WebAddressbookTests
     {
         private string allPhones;
         private string fullName;
+        private string allEmail;
         public ContactData(string firstname, string lastname)
         {
             FirstName = firstname;
             LastName = lastname;
+        }
+        public ContactData()
+        {
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -43,7 +47,7 @@ namespace WebAddressbookTests
             }
             set
             {
-                allPhones= value;
+                allPhones = value;
             }
         }
         public string FullName
@@ -53,7 +57,22 @@ namespace WebAddressbookTests
                 if (fullName != null)
                     return fullName;
                 else
-                    return FirstName + MiddleName + LastName;
+                    return FirstName + " " + MiddleName + " " + LastName;
+            }
+            set { fullName = value; }
+        }
+        public string AllEmail
+        {
+            get
+            {
+                if (allEmail != null)
+                    return allEmail;
+                else
+                    return Email + "\r\n" + Email2 + "\r\n" + Email3;
+            }
+            set
+            {
+                allEmail = value;
             }
         }
         public bool Equals(ContactData other)
@@ -71,7 +90,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "FirstName=" + FirstName + "\nlastName=" + LastName + "\naddress="+ Address + "\ncompany" + Company;
+            return "FirstName=" + FirstName + "\nlastName=" + LastName + "\naddress=" + Address + "\ncompany" + Company;
         }
 
         public int CompareTo(ContactData other)
@@ -85,7 +104,7 @@ namespace WebAddressbookTests
 
         private string CleanUp(string phone)
         {
-            if (phone == null || phone=="")
+            if (phone == null || phone == "")
             {
                 return "";
             }
