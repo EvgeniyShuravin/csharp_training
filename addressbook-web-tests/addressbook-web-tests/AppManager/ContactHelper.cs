@@ -159,25 +159,42 @@ namespace WebAddressbookTests
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
 
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
 
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+
+            string address2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
+            string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
 
             return new ContactData(firstName, lastName)
             {
                 MiddleName = middlename,
                 Address = address,
                 Home = homePhone,
+                NickName = nickname,
+                Company = company,
+                Title = title,
                 Mobile = mobilePhone,
                 Work = workPhone,
-                Email = email, 
-                Email2= email2,
-                Email3= email3
+                Fax = fax,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+                HomePage = homepage,
+                Address2 = address2,
+                Phone2 = phone2,
+                Notes = notes
             };
         }
         public ContactData GetContactInformationFromDetails(int index)
@@ -188,10 +205,12 @@ namespace WebAddressbookTests
             IList<IWebElement> cells = driver.FindElements(By.Id("content"));
 
             string[] str = cells[0].Text.Split('\n');
+            string fullInfo = null;
             string fullName = str[0];
-            string home = "";
-            string mobile = "";
-            string work = "";
+            string home = null;
+            string mobile = null;
+            string mobile2 = null;
+            string work = null;
             foreach (string str2 in str)
             {
                 if (Regex.IsMatch(str2, "\\bH: \\b"))
@@ -200,13 +219,18 @@ namespace WebAddressbookTests
                     work = str2.Split()[1];
                 if (Regex.IsMatch(str2, "\\bM: \\b"))
                     mobile = str2.Split()[1];
+                if (Regex.IsMatch(str2, "\\bP: \\b"))
+                    mobile2 = str2.Split()[1];
+                fullInfo += "\n" + str2;
             }
-
+            fullInfo = fullInfo.Remove(0, fullInfo.Split('\n')[0].Length + 1);
             return new ContactData()
             {
+                FullInfo = fullInfo,
                 FullName = fullName,
                 Home = home,
                 Mobile = mobile,
+                Phone2 = mobile2,
                 Work = work
             };
         }
