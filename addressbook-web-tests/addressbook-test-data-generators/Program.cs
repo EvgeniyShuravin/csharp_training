@@ -14,29 +14,56 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
-            int count = Convert.ToInt32(args[0]);
-            StreamWriter writer = new StreamWriter(args[1]);
-            string format = args[2];
-
-            List<GroupData> groups = new List<GroupData>();
-            for (int i = 0; i < count; i++)
+            int count = Convert.ToInt32(args[1]);
+            StreamWriter writer = new StreamWriter(args[2]);
+            string format = args[3];
+            string type = args[0];
+            if (type == "groups")
             {
-                groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                List<GroupData> groups = new List<GroupData>();
+                for (int i = 0; i < count; i++)
                 {
-                    Header = TestBase.GenerateRandomString(20),
-                    Footer = TestBase.GenerateRandomString(20),
-                });
+                    groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                    {
+                        Header = TestBase.GenerateRandomString(20),
+                        Footer = TestBase.GenerateRandomString(20),
+                    });
+                }
+                if (format == "csv")
+                    writeGroupsToCsvFile(groups, writer);
+                else if (format == "xml")
+                    writeGroupsToHtmlFile(groups, writer);
+                else if (format == "json")
+                    writeGroupsToJsonFile(groups, writer);
+                else
+                    System.Console.Out.WriteLine("Unrecognized format " + format);
+                writer.Close();
             }
-            if (format == "csv")
-                writeGroupsToCsvFile(groups, writer);
-            else if (format == "xml")
-                writeGroupsToHtmlFile(groups, writer);
-            else if (format=="json")
-                writeGroupsToJsonFile(groups, writer);
+            else if (type == "contacts")
+            {
+                List<ContactData> contact = new List<ContactData>();
+                for (int i = 0; i < count; i++)
+                {
+                    contact.Add(new ContactData(TestBase.GenerateRandomString(10), TestBase.GenerateRandomString(10))
+                    {
+                        Address = TestBase.GenerateRandomString(20),
+                        MiddleName = TestBase.GenerateRandomString(20)
+                    });
+                }
+                if (format == "csv")
+                    writeContactsToCsvFile(contact, writer);
+                else if (format == "xml")
+                    writeContactsToHtmlFile(contact, writer);
+                else if (format == "json")
+                    writeContactsToJsonFile(contact, writer);
+                else
+                    System.Console.Out.WriteLine("Unrecognized format " + format);
+                writer.Close();
+            }
             else
-                System.Console.Out.WriteLine("Unrecognized format " + format);
-            writer.Close();
-
+            {
+                System.Console.Out.WriteLine("Unrecognized type " + type);
+            }
         }
         static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
@@ -47,11 +74,26 @@ namespace addressbook_test_data_generators
         }
         static void writeGroupsToHtmlFile(List<GroupData> groups, StreamWriter writer)
         {
-            new XmlSerializer(typeof(List<GroupData>)).Serialize(writer,groups);
+            new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
         }
         static void writeGroupsToJsonFile(List<GroupData> groups, StreamWriter writer)
         {
-            writer.Write(JsonConvert.SerializeObject(groups,Formatting.Indented));
+            writer.Write(JsonConvert.SerializeObject(groups, Formatting.Indented));
+        }
+        static void writeContactsToCsvFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            foreach (ContactData contact in contacts)
+            {
+                writer.WriteLine(String.Format("${0},${1},${2}", contact.FirstName, contact.MiddleName, contact.NickName));
+            }
+        }
+        static void writeContactsToHtmlFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            new XmlSerializer(typeof(List<ContactData>)).Serialize(writer, contacts);
+        }
+        static void writeContactsToJsonFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contacts, Formatting.Indented));
         }
     }
 }
