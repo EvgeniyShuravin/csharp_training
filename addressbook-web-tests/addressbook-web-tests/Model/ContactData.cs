@@ -81,7 +81,7 @@ namespace WebAddressbookTests
                     if (Fax != null && Fax != "")
                         Fax = "\r\nF: " + Fax;
                     if (HomePage != null && HomePage != "")
-                        HomePage = "Homepage:\r\n" + HomePage;
+                        HomePage = "\r\nHomepage:\r\n" + HomePage;
                     if (Address2 != null && Address2 != "")
                         Address2 = "\r\n\r\n" + Address2;
                     if (Phone2 != null && Phone2 != "")
@@ -91,14 +91,14 @@ namespace WebAddressbookTests
                     if (MiddleName != null && MiddleName != "" && FirstName != null && FirstName != "")
                         FirstName = Returnname(FirstName);
                     if (MiddleName != null && MiddleName != "" && LastName != null && LastName != "")
-                        MiddleName= Returnname(MiddleName);
+                        MiddleName = Returnname(MiddleName);
 
 
                     return FirstName + MiddleName + LastName + "\r" +
                     ReturnFullInfo(NickName) + ReturnFullInfo(Title) + ReturnFullInfo(Company) + ReturnFullInfo(Address) + NotNullStr(Home, Mobile, Work, Fax) +
                     Home + Mobile + Work + Fax +
-                    NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3) + NotNullStr(Email, Email2, Email3, HomePage)  + HomePage +
-                    NullStr(Address2,Phone2,Notes) + Address2 + Phone2 + Notes;
+                    NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3)  + HomePage +
+                    NotNullStr(Address2,Phone2,Phone2,Notes) + NullStr(Address2, Phone2, Notes) + Address2 + Phone2 + Notes;
                 }
             }
             set { fullInfo = value; }
@@ -113,7 +113,7 @@ namespace WebAddressbookTests
                 {
                     allEmail = ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3);
                     if (allEmail != null && allEmail != "" && allEmail.Length > 2)
-                        allEmail = allEmail.Remove(0,2);
+                        allEmail = allEmail.Remove(0, 2);
                     return allEmail;
                 }
             }
@@ -163,7 +163,7 @@ namespace WebAddressbookTests
         {
             if (str == null || str == "")
                 return "";
-            return  "\r\n" + str;
+            return "\r\n" + str;
         }
         private string Returnname(string str)
         {
@@ -179,12 +179,24 @@ namespace WebAddressbookTests
             }
             return "";
         }
-        private string NullStr(string str1,string str2, string str3)
+        private string NullStr(string str1, string str2, string str3)
         {
-            if ((str1 == null || str1 == "") && (str3 == null && str3 == "") && (str2 != null && str2 != ""))
+
+            if ((str1 == null || str1 == "") && (str3 == null || str3 == "") && (str2 == null || str2 == ""))
+            {
+                return "";
+            }
+            else if ((str1 == null || str1 == "") && (str3 == null || str3 == "") && (str2 != null && str2 != ""))
+                return "\r\n";
+            else if ((str1 == null || str1 == "") && (str3 != null && str3 != "") && (str2 != null && str2 != ""))
             {
                 return "\r\n";
             }
+            else if ((str1 != null && str1 != "") && (str3 == null && str3 == "") && (str2 != null && str2 != ""))
+            {
+                return "\r\n";
+            }
+
             return "";
         }
     }
