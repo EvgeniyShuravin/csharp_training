@@ -206,28 +206,31 @@ namespace WebAddressbookTests
 
             string[] str = cells[0].Text.Split('\n');
             string fullInfo = null;
-            string fullName = str[0];
             string home = null;
             string mobile = null;
             string mobile2 = null;
             string work = null;
-            foreach (string str2 in str)
+            for (int i = 0; i < str.Length; i++)
             {
-                if (Regex.IsMatch(str2, "\\bH: \\b"))
-                    home = str2.Split()[1];
-                if (Regex.IsMatch(str2, "\\bW: \\b"))
-                    work = str2.Split()[1];
-                if (Regex.IsMatch(str2, "\\bM: \\b"))
-                    mobile = str2.Split()[1];
-                if (Regex.IsMatch(str2, "\\bP: \\b"))
-                    mobile2 = str2.Split()[1];
-                fullInfo += "\n" + str2;
+                if (Regex.IsMatch(str[i], "\\bH: \\b"))
+                    home = str[i].Split()[1];
+                if (Regex.IsMatch(str[i], "\\bW: \\b"))
+                    work = str[i].Split()[1];
+                if (Regex.IsMatch(str[i], "\\bM: \\b"))
+                    mobile = str[i].Split()[1];
+                if (Regex.IsMatch(str[i], "\\bP: \\b"))
+                    mobile2 = str[i].Split()[1];
+                if (i == 0)
+                {
+                    fullInfo += str[i]+ "\r";
+                }
+                else
+                    fullInfo += "\n" + str[i];
             }
-            fullInfo = fullInfo.Remove(0, fullInfo.Split('\n')[0].Length + 1);
+
             return new ContactData()
             {
                 FullInfo = fullInfo,
-                FullName = fullName,
                 Home = home,
                 Mobile = mobile,
                 Phone2 = mobile2,

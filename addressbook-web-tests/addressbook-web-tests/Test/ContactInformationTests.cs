@@ -18,7 +18,6 @@ namespace WebAddressbookTests
                 ContactData fromTable = applicationManager.Contact.GetContactInformationFromTable(0);
                 ContactData fromForm = applicationManager.Contact.GetContactInformationFromEditForm(0);
 
-                //Assert.AreEqual(fromTable, fromForm);
                 Assert.AreEqual(fromTable.Address, fromForm.Address);
                 Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
                 Assert.AreEqual(fromTable.AllEmail, fromForm.AllEmail);
@@ -33,8 +32,6 @@ namespace WebAddressbookTests
                 ContactData fromDetails = applicationManager.Contact.GetContactInformationFromDetails(0);
                 ContactData fromForm = applicationManager.Contact.GetContactInformationFromEditForm(0);
 
-                Assert.AreEqual(fromDetails.FullName, fromForm.FullName);
-                Assert.AreEqual(fromDetails.AllPhones, fromForm.AllPhones);
                 Assert.AreEqual(fromDetails.FullInfo, fromForm.FullInfo);
             }
         }

@@ -62,17 +62,7 @@ namespace WebAddressbookTests
                 allPhones = value;
             }
         }
-        public string FullName
-        {
-            get
-            {
-                if (fullName != null)
-                    return fullName;
-                else
-                    return FirstName + MiddleName + LastName.Remove(LastName.Length - 1) + "\r";
-            }
-            set { fullName = value; }
-        }
+
 
         public string FullInfo
         {
@@ -93,16 +83,22 @@ namespace WebAddressbookTests
                     if (HomePage != null && HomePage != "")
                         HomePage = "Homepage:\r\n" + HomePage;
                     if (Address2 != null && Address2 != "")
-                        Address2 = "\r\n\r\n\r\n" + Address2;
+                        Address2 = "\r\n\r\n" + Address2;
                     if (Phone2 != null && Phone2 != "")
                         Phone2 = "\r\n\r\nP: " + Phone2;
                     if (Notes != null && Notes != "")
                         Notes = "\r\n\r\n" + Notes;
-                    return FirstName + MiddleName + LastName.Remove(LastName.Length - 1) +
-                        NotNullStr(NickName, Title, Company, Address) + ReturnFullInfo(NickName) + ReturnFullInfo(Title) + ReturnFullInfo(Company) + ReturnFullInfo(Address) +
-                        Home + Mobile + Work + Fax +
-                        NotNullStr(Email, Email2, Email3, HomePage) + NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3) + HomePage +
-                        Address2 + Phone2 + Notes;
+                    if (MiddleName != null && MiddleName != "" && FirstName != null && FirstName != "")
+                        FirstName = Returnname(FirstName);
+                    if (MiddleName != null && MiddleName != "" && LastName != null && LastName != "")
+                        MiddleName= Returnname(MiddleName);
+
+
+                    return FirstName + MiddleName + LastName + "\r" +
+                    ReturnFullInfo(NickName) + ReturnFullInfo(Title) + ReturnFullInfo(Company) + ReturnFullInfo(Address) + NotNullStr(Home, Mobile, Work, Fax) +
+                    Home + Mobile + Work + Fax +
+                    NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3) + NotNullStr(Email, Email2, Email3, HomePage)  + HomePage +
+                    NullStr(Address2,Phone2,Notes) + Address2 + Phone2 + Notes;
                 }
             }
             set { fullInfo = value; }
@@ -114,7 +110,12 @@ namespace WebAddressbookTests
                 if (allEmail != null)
                     return allEmail;
                 else
-                    return ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3);
+                {
+                    allEmail = ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3);
+                    if (allEmail != null && allEmail != "" && allEmail.Length > 2)
+                        allEmail = allEmail.Remove(0,2);
+                    return allEmail;
+                }
             }
             set
             {
@@ -162,12 +163,25 @@ namespace WebAddressbookTests
         {
             if (str == null || str == "")
                 return "";
-            return str + "\r\n";
+            return  "\r\n" + str;
         }
-
+        private string Returnname(string str)
+        {
+            if (str == null || str == "")
+                return "";
+            return str + " ";
+        }
         private string NotNullStr(string str1, string str2, string str3, string str4)
         {
             if ((str1 != null && str1 != "") || (str2 != null && str2 != "") || (str3 != null && str3 != "") || (str4 != null && str4 != ""))
+            {
+                return "\r\n";
+            }
+            return "";
+        }
+        private string NullStr(string str1,string str2, string str3)
+        {
+            if ((str1 == null || str1 == "") && (str3 == null && str3 == "") && (str2 != null && str2 != ""))
             {
                 return "\r\n";
             }
