@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
@@ -23,31 +25,45 @@ namespace WebAddressbookTests
         public ContactData()
         {
         }
+        [Column(Name = "firstname")]
         public string FirstName { get; set; }
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
+        [Column(Name = "middlename")]
         public string MiddleName { get; set; }
+        [Column(Name = "address")]
         public string Address { get; set; }
+        [Column(Name = "nickname")]
         public string NickName { get; set; }
+        [Column(Name = "company")]
         public string Company { get; set; }
+        [Column(Name = "title")]
         public string Title { get; set; }
-
-
+        [Column(Name = "home")]
         public string Home { get; set; }
+        [Column(Name = "mobile")]
         public string Mobile { get; set; }
+        [Column(Name = "work")]
         public string Work { get; set; }
+        [Column(Name = "fax")]
         public string Fax { get; set; }
-
+        [Column(Name = "email")]
         public string Email { get; set; }
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+        [Column(Name = "homepage")]
         public string HomePage { get; set; }
-
+        [Column(Name = "address2")]
         public string Address2 { get; set; }
+        [Column(Name = "phone2")]
         public string Phone2 { get; set; }
+        [Column(Name = "notes")]
         public string Notes { get; set; }
-
-
+        [Column(Name = "id")]
         public string Id { get; set; }
+
         public string AllPhones
         {
             get
@@ -62,8 +78,6 @@ namespace WebAddressbookTests
                 allPhones = value;
             }
         }
-
-
         public string FullInfo
         {
             get
@@ -88,7 +102,7 @@ namespace WebAddressbookTests
                         Phone2 = "\r\n\r\nP: " + Phone2;
                     if (Notes != null && Notes != "")
                         Notes = "\r\n\r\n" + Notes;
-                    if ((MiddleName != null && MiddleName != "")|| (LastName != null && LastName != ""))
+                    if ((MiddleName != null && MiddleName != "") || (LastName != null && LastName != ""))
                         FirstName = Returnname(FirstName);
                     if ((LastName != null && LastName != ""))
                         MiddleName = Returnname(MiddleName);
@@ -98,8 +112,8 @@ namespace WebAddressbookTests
                     return FirstName + MiddleName + LastName + "\r" +
                     ReturnFullInfo(NickName) + ReturnFullInfo(Title) + ReturnFullInfo(Company) + ReturnFullInfo(Address) + NotNullStr(Home, Mobile, Work, Fax) +
                     Home + Mobile + Work + Fax +
-                    NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3)  + HomePage +
-                    NotNullStr(Address2,Phone2,Phone2,Notes) + NullStr(Address2, Phone2, Notes) + Address2 + Phone2 + Notes;
+                    NotNullStr(Email, Email2, Email3, HomePage) + ReturnFullInfo(Email) + ReturnFullInfo(Email2) + ReturnFullInfo(Email3) + HomePage +
+                    NotNullStr(Address2, Phone2, Phone2, Notes) + NullStr(Address2, Phone2, Notes) + Address2 + Phone2 + Notes;
                 }
             }
             set { fullInfo = value; }
@@ -199,6 +213,14 @@ namespace WebAddressbookTests
             }
 
             return "";
+        }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Contacts select g).ToList();
+            }
         }
     }
 }

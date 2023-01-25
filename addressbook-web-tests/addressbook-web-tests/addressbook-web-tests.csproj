@@ -126,11 +126,13 @@
     <Compile Include="Test\ContactInformationTests.cs" />
     <Compile Include="Test\ContactModificationTests.cs" />
     <Compile Include="Test\ContactRemovalTests.cs" />
+    <Compile Include="Test\ContactTestBase.cs" />
     <Compile Include="Test\GroupModificationTests.cs" />
     <Compile Include="Test\GroupRemovalTests.cs" />
     <Compile Include="AppManager\HelperBase.cs" />
     <Compile Include="AppManager\LoginHelper.cs" />
     <Compile Include="AppManager\NavigationHelper.cs" />
+    <Compile Include="Test\GroupTestBase.cs" />
     <Compile Include="Test\LoginTests.cs" />
     <Compile Include="Test\TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,7 +9,7 @@ namespace WebAddressbookTests
 {
     public class NavigationHelper : HelperBase
     {
-        private string baseURL;
+        public string baseURL;
         public NavigationHelper(ApplicationManager applicationManager, string baseURL) : base(applicationManager)
         {
             this.baseURL = baseURL;
@@ -35,6 +35,14 @@ namespace WebAddressbookTests
                 return;
             }
             driver.FindElement(By.LinkText("groups")).Click();
+        }
+        public void GoToUrlCast(string Url)
+        {
+            if (driver.Url == baseURL + "/addressbook" + Url)
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(baseURL + "/addressbook" + Url);
         }
     }
 }

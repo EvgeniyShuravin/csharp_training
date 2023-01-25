@@ -1,8 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using MySql.Data.MySqlClient;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,10 +33,33 @@ namespace WebAddressbookTests
             applicationManager.Navigatot.GoToHomePage();
             return this;
         }
+        public ContactHelper Remove(ContactData contactData)
+        {
+            SelectContact(contactData.Id);
+            InitContactRemove();
+            driver.SwitchTo().Alert().Accept();
+            contactCache = null;
+            applicationManager.Navigatot.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper SelectContact(object id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            return this;
+        }
 
         public ContactHelper Modify(ContactData contactData, int index)
         {
             OpenToModify(index);
+            FillContactForm(contactData);
+            SubmitContactModify();
+            applicationManager.Navigatot.GoToHomePage();
+            return this;
+        }
+        public ContactHelper Modify(ContactData contactData, ContactData contact)
+        {
+            OpenToModify(contact.Id);
             FillContactForm(contactData);
             SubmitContactModify();
             applicationManager.Navigatot.GoToHomePage();
@@ -84,6 +109,12 @@ namespace WebAddressbookTests
         public ContactHelper OpenToModify(int index)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[8]/a/img")).Click();
+            return this;
+        }
+        public ContactHelper OpenToModify(string id)
+        {
+
+            applicationManager.Navigatot.GoToUrlCast("/edit.php?id="+id);
             return this;
         }
         public ContactHelper SubmitContactModify()

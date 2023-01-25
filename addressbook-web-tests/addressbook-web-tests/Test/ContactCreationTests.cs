@@ -60,13 +60,13 @@ namespace WebAddressbookTests
         [Test, TestCaseSource("ContactDataDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
-            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+            List<ContactData> oldContact = ContactData.GetAll();
 
             applicationManager.Contact.Create(contact);
 
             Assert.AreEqual(oldContact.Count + 1, applicationManager.Contact.GetContactCount());
 
-            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            List<ContactData> newContact = ContactData.GetAll();
             oldContact.Add(contact);
             oldContact.Sort();
             newContact.Sort();
@@ -81,13 +81,13 @@ namespace WebAddressbookTests
             contact.Email = "tetst@gmail.com";
             contact.Address = "SPB";
 
-            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+            List<ContactData> oldContact = ContactData.GetAll();
 
             applicationManager.Contact.Create(contact);
 
             Assert.AreEqual(oldContact.Count + 1, applicationManager.Contact.GetContactCount());
 
-            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            List<ContactData> newContact = ContactData.GetAll();
             oldContact.Add(contact);
             oldContact.Sort();
             newContact.Sort();

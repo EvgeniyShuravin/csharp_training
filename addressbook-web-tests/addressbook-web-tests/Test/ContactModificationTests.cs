@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests : AuthTestBase
+    public class ContactModificationTests : ContactTestBase
     {
         [Test]
         public void ContactModifyTest()
         {
             applicationManager.Contact.CheckingForContacts();
+
+            List<ContactData> oldGroups = ContactData.GetAll();
+            ContactData toModif = oldGroups[0];
 
             ContactData newData = new ContactData("New", "New");
             newData.MiddleName = "NewNew";
@@ -21,14 +24,14 @@ namespace WebAddressbookTests
             newData.Email = "tetstNew@gmail.com";
             newData.Address = "VN";
 
-            List<ContactData> oldContact = applicationManager.Contact.GetContactList();
+            List<ContactData> oldContact = ContactData.GetAll();
             ContactData oldData = oldContact[0];
 
-            applicationManager.Contact.Modify(newData, 0);
+            applicationManager.Contact.Modify(newData, toModif);
 
             Assert.AreEqual(oldContact.Count, applicationManager.Contact.GetContactCount());
 
-            List<ContactData> newContact = applicationManager.Contact.GetContactList();
+            List<ContactData> newContact = ContactData.GetAll();
             oldContact[0].FirstName = newData.FirstName;
             oldContact[0].LastName = newData.LastName;
             oldContact.Sort();
@@ -43,30 +46,5 @@ namespace WebAddressbookTests
                 }
             }
         }
-
-        /*
-                [Test]
-                public void BadNameContactModifyTest()
-                {
-                    applicationManager.Contact.CheckingForContacts();
-                    ContactData contact = new ContactData("a'a", "New");
-                    contact.MiddleName = "NewNew";
-                    contact.Home = "132";
-                    contact.Email = "tetstNew@gmail.com";
-                    contact.Address = "VN";
-                    List<ContactData> oldContact = applicationManager.Contact.GetContactList();
-                    applicationManager.Contact.Modify(contact, 0);
-
-                    Assert.AreEqual(oldContact.Count, applicationManager.Contact.GetContactCount());
-
-                    List<ContactData> newContact = applicationManager.Contact.GetContactList();
-                    oldContact[0].FirstName = contact.FirstName;
-                    oldContact[0].LastName = contact.LastName;
-                    oldContact.Sort();
-                    newContact.Sort();
-                    Assert.AreEqual(oldContact, newContact);
-                }
-        */
-
     }
 }
