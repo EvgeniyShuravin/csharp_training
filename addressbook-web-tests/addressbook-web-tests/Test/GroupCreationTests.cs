@@ -8,6 +8,8 @@ using System.IO;
 using NUnit.Framework.Constraints;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using System.Linq;
+
 
 namespace WebAddressbookTests
 {
@@ -16,9 +18,9 @@ namespace WebAddressbookTests
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
-            List<GroupData> groups= new List<GroupData>();
+            List<GroupData> groups = new List<GroupData>();
 
-            for(int i=0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 groups.Add(new GroupData(GenerateRandomString(30))
                 {
@@ -33,8 +35,8 @@ namespace WebAddressbookTests
         {
             List<GroupData> groups = new List<GroupData>();
 
-            string[] lines=File.ReadAllLines(@"Groups.csv");
-            foreach(string l in lines)
+            string[] lines = File.ReadAllLines(@"Groups.csv");
+            foreach (string l in lines)
             {
                 string[] parts = l.Split(',');
                 groups.Add(new GroupData(parts[0])
@@ -47,7 +49,7 @@ namespace WebAddressbookTests
         }
         public static IEnumerable<GroupData> GroupDataFromXmlFile()
         {
-            return (List<GroupData>) new XmlSerializer(typeof(List<GroupData>)).Deserialize(new StreamReader(@"groups.xml"));
+            return (List<GroupData>)new XmlSerializer(typeof(List<GroupData>)).Deserialize(new StreamReader(@"groups.xml"));
         }
         public static IEnumerable<GroupData> GroupDataFromJsonFile()
         {
@@ -69,7 +71,7 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-           
+
         }
         [Test]
         public void EmptyGroupCreationTest()
@@ -108,6 +110,14 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+        }
+        [Test]
+        public void TestDBConnectivity()
+        {
+            List<GroupData> fromUI = applicationManager.Groups.GetGroupList();
+            List<GroupData> fromDB = GroupData.GetAll();
+
+
         }
     }
 }

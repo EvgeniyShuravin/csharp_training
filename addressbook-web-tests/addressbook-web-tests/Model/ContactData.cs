@@ -88,10 +88,11 @@ namespace WebAddressbookTests
                         Phone2 = "\r\n\r\nP: " + Phone2;
                     if (Notes != null && Notes != "")
                         Notes = "\r\n\r\n" + Notes;
-                    if (MiddleName != null && MiddleName != "" && FirstName != null && FirstName != "")
+                    if ((MiddleName != null && MiddleName != "")|| (LastName != null && LastName != ""))
                         FirstName = Returnname(FirstName);
-                    if (MiddleName != null && MiddleName != "" && LastName != null && LastName != "")
+                    if ((LastName != null && LastName != ""))
                         MiddleName = Returnname(MiddleName);
+
 
 
                     return FirstName + MiddleName + LastName + "\r" +
