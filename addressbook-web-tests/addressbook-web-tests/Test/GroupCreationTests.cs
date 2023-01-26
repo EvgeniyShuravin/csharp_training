@@ -114,8 +114,10 @@ namespace WebAddressbookTests
         [Test]
         public void TestDBConnectivity()
         {
-            List<GroupData> fromUI = applicationManager.Groups.GetGroupList();
-            List<GroupData> fromDB = GroupData.GetAll();
+            foreach (ContactData contact in ContactData.GetAll())
+            {
+                System.Console.Out.WriteLine(contact.Deprecated);
+            }
         }
     }
 }

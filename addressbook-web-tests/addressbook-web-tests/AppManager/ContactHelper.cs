@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
@@ -42,10 +43,36 @@ namespace WebAddressbookTests
             applicationManager.Navigatot.GoToHomePage();
             return this;
         }
-
-        public ContactHelper SelectContact(object id)
+        public ContactHelper AddContactToGroup(ContactData contact, GroupData group)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            applicationManager.Navigatot.GoToHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver,TimeSpan.FromSeconds(10)).Until(driver=>driver.FindElements(By.CssSelector("div.msgbox")).Count > 0); 
+            return this;
+        }
+        public ContactHelper DeletingContactsFromGroup(ContactData contact, GroupData group)
+        {
+            applicationManager.Navigatot.GoToHomePage();
+            SelectGroupFilter(group.Name);
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitDeletingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(driver => driver.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+            return this;
+        }
+
+        public ContactHelper CommitDeletingContactToGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectGroupFilter(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
             return this;
         }
 
@@ -89,7 +116,23 @@ namespace WebAddressbookTests
             Type(By.Name("email3"), contact.Email3);
             return this;
         }
+        public ContactHelper CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+            return this;
+        }
 
+        public ContactHelper SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+            return this;
+        }
+
+        public ContactHelper ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+            return this;
+        }
         public ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -99,6 +142,11 @@ namespace WebAddressbookTests
         public ContactHelper SelectContact(int index)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + (index + 2) + "]/td/input")).Click();
+            return this;
+        }
+        public ContactHelper SelectContact(object id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
         public ContactHelper InitContactRemove()
