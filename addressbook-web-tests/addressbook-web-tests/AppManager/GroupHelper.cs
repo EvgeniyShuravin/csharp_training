@@ -102,7 +102,8 @@ namespace WebAddressbookTests
         }
         public GroupHelper CheckingForGroups()
         {
-            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
+            applicationManager.Navigatot.GoToGroupsPage();
+            if (!IsElementPresent(By.Name("selected[]")))
             {
                 GroupData group = new GroupData("def");
                 Create(group);

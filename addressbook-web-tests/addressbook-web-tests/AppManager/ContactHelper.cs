@@ -173,7 +173,8 @@ namespace WebAddressbookTests
         }
         public ContactHelper CheckingForContacts()
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")))
+            applicationManager.Navigatot.GoToHomePage();
+            if (!IsElementPresent(By.XPath("//tr[@name='entry']")))
             {
                 ContactData contact = new ContactData("def", "def");
                 Create(contact);
