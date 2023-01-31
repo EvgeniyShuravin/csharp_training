@@ -33,6 +33,8 @@ namespace WebAddressbookTests
                 ContactData fromForm = applicationManager.Contact.GetContactInformationFromEditForm(0);
 
                 Assert.AreEqual(fromDetails.FullInfo, fromForm.FullInfo);
+
+
             }
         }
     }

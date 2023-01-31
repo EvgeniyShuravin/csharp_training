@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace WebAddressbookTests
+namespace mantis_tests
 {
     public class TestBase
     {
         protected ApplicationManager applicationManager;
         public static bool PERFORM_LONG_UI_CHECKS = false;
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void SetupApplicationManager()
         {
             applicationManager = ApplicationManager.GetInstance();
