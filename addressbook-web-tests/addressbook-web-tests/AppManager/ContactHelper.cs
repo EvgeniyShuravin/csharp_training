@@ -48,7 +48,7 @@ namespace WebAddressbookTests
             applicationManager.Navigatot.GoToHomePage();
             ClearGroupFilter();
             SelectContact(contact.Id);
-            SelectGroupToAdd(group.Name);
+            SelectGroupToAdd(group.Id);
             CommitAddingContactToGroup();
             new WebDriverWait(driver,TimeSpan.FromSeconds(10)).Until(driver=>driver.FindElements(By.CssSelector("div.msgbox")).Count > 0); 
             return this;
@@ -56,9 +56,9 @@ namespace WebAddressbookTests
         public ContactHelper DeletingContactsFromGroup(ContactData contact, GroupData group)
         {
             applicationManager.Navigatot.GoToHomePage();
-            SelectGroupFilter(group.Name);
+            SelectGroupFilter(group.Id);
             SelectContact(contact.Id);
-            SelectGroupToAdd(group.Name);
+            //SelectGroupToAdd(group.Id);
             CommitDeletingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(driver => driver.FindElements(By.CssSelector("div.msgbox")).Count > 0);
             return this;
@@ -70,9 +70,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectGroupFilter(string name)
+        public ContactHelper SelectGroupFilter(string id)
         {
-            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+            driver.FindElement(By.Name("group")).Click();
+            driver.FindElement(By.XPath("//option[@value='"+ id +"']")).Click();
             return this;
         }
 
@@ -122,9 +123,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectGroupToAdd(string name)
+        public ContactHelper SelectGroupToAdd(string id)
         {
-            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+            driver.FindElement(By.CssSelector("select[name=\"to_group\"]")).FindElement(By.XPath("option[@value='" + id + "']")).Click();
             return this;
         }
 

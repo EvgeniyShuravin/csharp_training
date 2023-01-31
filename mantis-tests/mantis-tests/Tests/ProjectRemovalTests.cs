@@ -20,9 +20,10 @@ namespace mantis_tests
             }
             int oldCount = applicationManager.Project.GetProjectCount();
 
-            applicationManager.Project.Remove(2);
+            applicationManager.Project.Remove(1);
             int newCount = applicationManager.Project.GetProjectCount();
             Assert.AreEqual(oldCount - 1, newCount);
+        
         }
     }
 }
