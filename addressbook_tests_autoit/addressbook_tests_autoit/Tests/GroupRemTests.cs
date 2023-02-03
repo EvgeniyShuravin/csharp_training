@@ -11,8 +11,7 @@ namespace addressbook_tests_autoit
         [Test]
         public void GroupRemTest()
         {
-            int old = app.Groups.GetCountGroup();
-            if (old < 2) 
+            if (app.Groups.GetCountGroup() < 2) 
             {
                 GroupData group = new GroupData()
                 {
@@ -20,6 +19,7 @@ namespace addressbook_tests_autoit
                 };
                 app.Groups.Add(group);
             }
+            int old = app.Groups.GetCountGroup();
             app.Groups.Rem(1);
 
             int newGroups = app.Groups.GetCountGroup();

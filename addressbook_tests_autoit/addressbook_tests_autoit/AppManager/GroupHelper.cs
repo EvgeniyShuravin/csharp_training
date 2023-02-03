@@ -29,6 +29,7 @@ namespace addressbook_tests_autoit
             OpenGroupsDialog();
             SelectGroup(index.ToString());
             RemGroup();
+            CloseGroupsDialog();
         }
 
         private void RemGroup()
@@ -48,6 +49,7 @@ namespace addressbook_tests_autoit
             OpenGroupsDialog();
             string count = aux.ControlTreeView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51", "GetItemCount", "#0", "");
             Convert.ToInt32(count);
+            CloseGroupsDialog();
             return Convert.ToInt32(count);
         }
 
