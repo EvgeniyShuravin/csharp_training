@@ -6,7 +6,7 @@ using System.Text;
 namespace mantis_tests
 {
 
-    [TestFixture]
+    
     public class ProjectCreationTests : AuthTestBase
     {
       [Test]

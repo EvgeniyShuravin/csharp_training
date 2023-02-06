@@ -57,6 +57,8 @@ namespace mantis_tests
         }
         public int GetProjectCount()
         {
+
+
             applicationManager.Navigate.GoProjectManagePage();
             return driver.FindElements(By.CssSelector("i[class*='fa fa-check fa-lg']")).Count();
         }
